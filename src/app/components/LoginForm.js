@@ -7,10 +7,10 @@ export const LoginForm = () => {
         <div>
             <h1>Entrez vos identifiants</h1>
 
-            <form>
+            <form onSubmit={}>
                 <input type="text" placeholder='nom'/>
                 <input type="password" placeholder='mot de passe'/>
-                <button onClick={}>Connexion</button>
+                <input type="submit" value="connexion"/>
 
                 <div>Message d'erreur</div>
             </form>
