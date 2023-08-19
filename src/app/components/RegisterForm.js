@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
+import Email from 'next-auth/providers/email'
 
 export const RegisterForm = async() => {
 
@@ -11,12 +12,41 @@ export const RegisterForm = async() => {
     const [passwordConf, setPasswordConf] = useState("")
     const [error, setError] = useState("")
 
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        const terms = document.getElementById('terms')
+        if (!name || !mail || !password || !passwordConf || !terms.isChecked) {
+            setError("Veuillez remplir tout les champs");
+        }
+
+        try {
+            await fetch(`api/register`, {
+                method:"POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    name, mail, password, passwordConf
+                }),
+            })
+
+            if (res.ok) {
+                const form = e.target;
+                form.reset()
+            } else {
+                console.log("Echec de l'inscription")
+            }
+        } catch (err) {
+            console.log("Erreur durant l'inscription")
+        }
+    };
+
         return (
             <div>
                 <div>
                     <h1>Entrez vos identifiants</h1>
         
-                    <form onSubmit={}>
+                    <form onSubmit={handleSubmit}>
                         <input onChange={(e)=>setName(e.target.value)} value={name}
                          type="text" id='name' placeholder='nom'/>
                         <input onChange={(e)=>setMail(e.target.value)} value={mail}
