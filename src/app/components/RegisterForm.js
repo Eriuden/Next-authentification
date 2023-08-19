@@ -1,8 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
 import Link from 'next/link'
-import Email from 'next-auth/providers/email'
 
 export const RegisterForm = async() => {
 
