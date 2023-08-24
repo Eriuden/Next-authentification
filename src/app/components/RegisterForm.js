@@ -1,6 +1,8 @@
 "use client"
-
 import Link from 'next/link'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+
 
 export const RegisterForm = async() => {
 
@@ -10,6 +12,8 @@ export const RegisterForm = async() => {
     const [passwordConf, setPasswordConf] = useState("")
     const [error, setError] = useState("")
 
+    const router = useRouter()
+
     const handleSubmit = async(e) => {
         e.preventDefault();
         const terms = document.getElementById('terms')
@@ -18,7 +22,22 @@ export const RegisterForm = async() => {
         }
 
         try {
-            await fetch(`api/register`, {
+
+            const userExistRes = await fetch("api/userExist", {
+                method: "POST",
+                headers: {
+                    "Content-type":"application/json",
+                },
+                body: JSON.stringify({mail}),
+            })
+
+            const {user} = await userExistRes.json()
+
+            if (user) {
+                setError("Cet utilisateur existe déjà")
+                return
+            }
+            const res = await fetch(`api/register`, {
                 method:"POST",
                 headers: {
                     "Content-type": "application/json"
@@ -31,6 +50,7 @@ export const RegisterForm = async() => {
             if (res.ok) {
                 const form = e.target;
                 form.reset()
+                router.push("/")
             } else {
                 console.log("Echec de l'inscription")
             }
