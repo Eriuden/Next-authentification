@@ -1,4 +1,4 @@
-import Image from 'next/image'
+
 import { LoginForm } from './components/LoginForm'
 import { redirect } from 'next/dist/server/api-utils'
 import {getServerSession } from 'next-auth'
